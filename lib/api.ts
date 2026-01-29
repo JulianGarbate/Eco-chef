@@ -2,10 +2,17 @@ import axios from 'axios';
 import Cookies from 'js-cookie';
 
 // Limpiar URL: remover trailing slashes y construir correctamente
-const apiBaseUrl = (process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001').replace(/\/$/, '');
+const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001';
+const cleanedUrl = apiUrl.replace(/\/$/, ''); // Remover trailing slash
+const apiBaseUrl = `${cleanedUrl}/api`;
+
+// Log en desarrollo
+if (process.env.NODE_ENV === 'development') {
+  console.log('API Base URL:', apiBaseUrl);
+}
 
 const api = axios.create({
-  baseURL: `${apiBaseUrl}/api`,
+  baseURL: apiBaseUrl,
   timeout: 60000, // 60 segundos de timeout
   headers: {
     'Content-Type': 'application/json',
